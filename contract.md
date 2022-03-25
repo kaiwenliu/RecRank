@@ -46,4 +46,4 @@
 
 ## Signatures
 
-Richard Liu (rjliu3), Sahith Thummalapally (sahitht2)
+Richard Liu (rjliu3), Sahith Thummalapally (sahitht2), Kevin Chu (kevinlc2) 
