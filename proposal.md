@@ -4,8 +4,16 @@ Richard, Sahith, Kevin
 
 ## Leading Question
 
-Which Github developers have similar interests? That is, which developers share
-similar followers but are not following each other?
+Problem: Github don't know who have similar interests as them without going
+through their network manually.
+
+Our algorithm would find similar developers and suggest those as followers,
+making it easier to network and find jobs. Since developers already know who
+they are following, it would be pointless to find those. We want to find new
+developers that are *similar* to a certain fixed developers and suggest those as
+new followers.
+
+Our dataset contains Github developers ids and graph of who follows whom.
 
 ## Dataset Acquisition and Processing
 
@@ -22,10 +30,16 @@ file that associates each developer id with their username. The dataset has
 
 We will read the CSV using a C++ library. We will get rid of any nodes that are
 not connected to any edges. We will ensure that the graph of developers is
-*connected*. Check if the nodes are connected to yourself, as you cannot follow
-yourself. Furthermore, we should also check if the node ids in the graph are no
-more than the graph ids in the list they gave us. In turn, we are checking if
-the values are valid and not negative values and such. 
+*connected* (**see next paragraph**). Check if the nodes are connected to
+yourself, as you cannot follow yourself. Furthermore, we should also check if
+the node ids in the graph are no more than the graph ids in the list they gave
+us. In turn, we are checking if the values are valid and not negative values and
+such.
+
+To make the graph connected, we will split the graph into multiple connected
+subgraphs. Ideally, there would only be 1 such subgraph. In case there are
+multiple subgraphs (that are not connected to each other), we will pick the one
+with the most nodes.
 
 ### Data Storage
 
@@ -45,26 +59,27 @@ from a single node to identify developers similar (but not connected) to them
 
 ### Algorithms
 
-There are two algorithms. The first is the node similarity algorithm, which
-finds similar nodes based on shared edges. This is also known as the Jaccard
-Index (or Jaccard similarity score). The algorithm will take in a graph and a
-node to start at. To compute the Jaccard Index between two nodes, we count the
-number of nodes that they share and the number of nodes they differ. This
-algorithm is done in O(n + m), where n is the number of edges of the first node
-and m is the number of edges of the second node.  The algorithm will output
-multiple nodes in the order that they share a significant degree of similarity.
+We will use two algorithms and one traversal.
 
-We will also use Djikstra's algorithm to find the shortest path between users of
-related interests. The algorithm is done in O( E log V), where V is the number
-of vertices and E is the total number of edges. We are doing Dijkstra's on all
-the nodes. Therefore the total time complexity will be O(V * E * log V). The
-algorithm will output multiple nodes, sorted in the order that are closest to
-the target node (but not directly connected to it).
+Our algorithm will take as input one "target" developer. It will output (in
+ranked order) multiple similar developers that will be suggested as new
+followers.
 
-We want to find developers that share overlap according to both of these
-algorithms. This way, we can be sure that they do indeed have a high degree of
-similarity. We will print a list of users that are similar to someone in
-formatted text.
+The first algorithm we will use is PageRank. This will identify the more
+"influential" developers (that is, those who have greater number of connections
+to other influential developers). The output of this algorithm is used in the
+second step.
+
+The second algorithm is Dijkstra's. Using a BFS, we will look for developers
+that are at least two edges away from the target developer. We will find the
+shortest path using Dijkstra's, with the edge weighted based on the PageRank
+weighting of the two nodes it is connecting. The BST will be limited to a
+fixed predetermined depth.
+
+From this process, we will get a list of developers, each with a "distance" to
+the target developer. We can sort this list based on the Dijkstra's distance and
+output that list. We will limit our output to a fix constant number of
+developers.
 
 ## Timeline
 
