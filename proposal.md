@@ -85,7 +85,7 @@ developers.
 
 - Week 1: (March 25 - April 3) - Gathering Data, project environment setup, and
   find libraries to use
-- Week 2: (April 3 - April 10) - Implementing the Jaccard similarity score and
+- Week 2: (April 3 - April 10) - Implementing the PageRank algorithm and
   incorporating data with them.
 - Week 3: (April 11 - April 17) - **(mid project check in)** - Implementing the
   Djikstra's algorithm and incorporating data with them
