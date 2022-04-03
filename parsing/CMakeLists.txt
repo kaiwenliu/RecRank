@@ -12,6 +12,10 @@ file(GLOB SOURCES "src/*.cpp")
 # Add testing sources
 file(GLOB TEST_SOURCES "tests/*.cpp")
 
+# Add JSON library
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+add_subdirectory(nlohmann_json)
+
 # Add library interface for our files
 add_library(ParsingLib ${SOURCES} ${INCLUDES})
 
@@ -20,7 +24,7 @@ target_include_directories(ParsingLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Add the executable
 add_executable(main-parsing main.cpp)
-target_link_libraries(main-parsing ParsingLib)
+target_link_libraries(main-parsing ParsingLib nlohmann_json::nlohmann_json)
 
 target_include_directories(main-parsing PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -37,3 +41,4 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2)
 add_executable(test-parsing ${SOURCES} ${TEST_SOURCES})
 target_link_libraries(test-parsing ParsingLib Catch2::Catch2)
+

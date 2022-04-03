@@ -1,9 +1,17 @@
-#include "include/node.h"
-// #include "include/t_node.h"
 #include <iostream>
 
+#include "nlohmann/json.hpp"
+
+#include "include/node.h"
+
+using json = nlohmann::json;
 
 int main() {
+    // test to see that it works
+    nlohmann::json j;
+    j["name"] = "John Doe";
+    std::cout << j.dump() << std::endl;
+
     Parser::Node n("5");
     Parser::Node n2("6");
 
