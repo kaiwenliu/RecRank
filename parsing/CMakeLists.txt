@@ -16,6 +16,9 @@ file(GLOB TEST_SOURCES "tests/*.cpp")
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(nlohmann_json)
 
+# Add CSV library
+add_subdirectory(csv-parser)
+
 # Add library interface for our files
 add_library(ParsingLib ${SOURCES} ${INCLUDES})
 
@@ -24,7 +27,7 @@ target_include_directories(ParsingLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Add the executable
 add_executable(main-parsing main.cpp)
-target_link_libraries(main-parsing ParsingLib nlohmann_json::nlohmann_json)
+target_link_libraries(main-parsing ParsingLib nlohmann_json::nlohmann_json csv)
 
 target_include_directories(main-parsing PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 

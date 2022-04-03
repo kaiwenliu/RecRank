@@ -1,14 +1,16 @@
 #include <iostream>
 
+#include "csv.hpp"
 #include "nlohmann/json.hpp"
 
 #include "include/node.h"
 
 using json = nlohmann::json;
+using namespace csv;
 
 int main() {
     // test to see that it works
-    nlohmann::json j;
+    json j;
     j["name"] = "John Doe";
     std::cout << j.dump() << std::endl;
 

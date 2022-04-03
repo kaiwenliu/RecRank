@@ -30,3 +30,6 @@ doc/mkdocs/site
 doc/mkdocs/docs/__pycache__/
 /doc/docset/JSON_for_Modern_C++.docset/
 /doc/docset/JSON_for_Modern_C++.tgz
+
+*.pc
+*.cmake
