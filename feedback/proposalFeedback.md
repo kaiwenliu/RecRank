@@ -20,3 +20,10 @@ The algorithm for Jaccard Index doesn’t satisfy the requirements for complex a
 
 **Output**
 In your output, what is the input? How many developers do you plan to output? 
+
+
+### ReGrade
+Competent (90%)
+
+### Comments
+Nice job!
