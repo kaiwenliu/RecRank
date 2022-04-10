@@ -1,8 +1,6 @@
-#include "../include/pagerank.h"
+#include "pagerank.hpp"
 
 #include <iostream>
-
-using Parser::Node;
 
 namespace PageRank {
 
