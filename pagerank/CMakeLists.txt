@@ -13,20 +13,20 @@ file(GLOB SOURCES "src/*.cpp")
 file(GLOB TEST_SOURCES "tests/*.cpp")
 
 # Add library interface for our files
-add_library(AdderLib ${SOURCES} ${INCLUDES})
+add_library(PageRankLib ${SOURCES} ${INCLUDES})
 
 # Link
-target_include_directories(AdderLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} "../parsing/include")
+target_include_directories(PageRankLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} "../parsing/include")
 
 # Link Parsing Library to the a-star one
 link_directories("../parsing")
-target_link_libraries(AdderLib ParsingLib)
+target_link_libraries(PageRankLib ParsingLib)
 
 # Add the executable
-add_executable(main-adder main.cpp)
-target_link_libraries(main-adder AdderLib)
+add_executable(main-pagerank main.cpp)
+target_link_libraries(main-pagerank PageRankLib)
 
-target_include_directories(main-adder PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(main-pagerank PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Add Catch2
 Include(FetchContent)
@@ -38,5 +38,5 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(Catch2)
-add_executable(test-adder ${SOURCES} ${TEST_SOURCES})
-target_link_libraries(test-adder AdderLib Catch2::Catch2)
+add_executable(test-pagerank ${SOURCES} ${TEST_SOURCES})
+target_link_libraries(test-pagerank PageRankLib Catch2::Catch2)

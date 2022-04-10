@@ -3,6 +3,7 @@
 #include "csv.hpp"
 #include "nlohmann/json.hpp"
 
+#include "pagerank/pagerank.h"
 #include "include/node.h"
 
 using json = nlohmann::json;
@@ -27,6 +28,8 @@ int main() {
     // std::cout << n.getID() << ", " << n.getData() << std::endl;
     // std::cout << n2.getID() << ", " << n2.getData() << std::endl;
     // std::cout << Parser::Node::num_nodes_ << std::endl;
+
+    PageRank::PageRank pr;
 
     return 0;
 }
