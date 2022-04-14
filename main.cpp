@@ -26,28 +26,12 @@ int main() {
 
     // run pagerank
     PageRank pr(edges);
-    vector<PageRankResult> results = pr.result();
+    vector<int> results = pr.result();
 
-    // put pagerank results into a map for fast lookup
-    unordered_map<int, double> page_rank_map;
-    for (PageRankResult& result: results) {
-        page_rank_map[result.node_id] = result.rank;
-    }
-
-    // convert weighted nodes to weighted edges for Dijkstra's
-    vector<WeightedEdge> weighted_edges;
-    weighted_edges.reserve(edges.size());
-    for (const std::pair<int, int>& edge : edges) {
-        int id_1 = edge.first;
-        int id_2 = edge.second;
-        // average the page rank of the two nodes for the edge
-        double avg_weight = (page_rank_map[id_1] + page_rank_map[id_2]) / 2;
-        int weight = (int)(avg_weight * 10000);
-        WeightedEdge weighted_edge { id_1, id_2, weight };
-        weighted_edges.push_back(weighted_edge);
-    }
-
-    Dijkstra dijkstra(weighted_edges);
+    int start = 0;
+    // TODO: create adjacency matrix of bools
+    vector<vector<bool>> connected;
+    Dijkstra dijkstra(results, connected, start);
 
     return 0;
 }

@@ -6,12 +6,6 @@
 using std::vector;
 using std::pair;
 
-struct PageRankResult {
-    int node_id;
-    // should be between 0 and 1
-    double rank;
-};
-
 class PageRank {
 public:
     /**
@@ -23,7 +17,7 @@ public:
     /**
      * Get the result of the PageRank algorithm.
      */
-    vector<PageRankResult> result() const;
+    vector<int> result() const;
 
     // add member functions if necessary
 private:

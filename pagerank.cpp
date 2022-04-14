@@ -24,7 +24,7 @@ PageRank::PageRank(const std::vector<std::pair<int, int> > edges) {
 
 }
 
-vector<PageRankResult> PageRank::result() const {
+vector<int> PageRank::result() const {
     // return the result
-    return vector<PageRankResult>();
+    return vector<int>();
 }
