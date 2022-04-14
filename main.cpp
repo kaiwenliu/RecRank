@@ -1,15 +1,19 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <queue>
 
 #include "csv.hpp"
 
+#include "driver.hpp"
 #include "pagerank.hpp"
 #include "dijkstra.hpp"
 
 using namespace csv;
 using std::vector;
 using std::unordered_map;
+
+#define SIZE 37700
 
 int main() {
     // load edges
@@ -20,6 +24,12 @@ int main() {
         int id_2 = row["id_2"].get<int>();
         std::pair<int, int> edge(id_1, id_2);
         edges.push_back(edge);
+    }
+
+    vector<vector<bool>> matrix = to_matrix(edges, SIZE);
+    if (!is_connected(matrix)) {
+        std::cout << "Graph is not connected" << std::endl;
+        return 1;
     }
 
     std::cout << "edges.size(): " << edges.size() << std::endl;

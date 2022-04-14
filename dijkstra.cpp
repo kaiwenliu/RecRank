@@ -17,22 +17,11 @@ int Dijkstra::min_distance() {
     int min_weight = INT32_MAX;
     int min_index = -1;
 
-    std::cout << "min_distance()" << std::endl;
-    std::cout << "size of visited: " << visited.size() << std::endl;
-
     for (size_t i = 0; i < weights.size(); i++) {
         // must not be in spanning set
-        std::cout << "> size of visited: " << visited.size() << std::endl;
-        for (auto it = visited.begin(); it != visited.end(); it++) {
-            std::cout << "> " << *it << std::endl;
-        }
         if (visited.find(i) != visited.end()) {
-            std::cout << "skipping " << i << std::endl;
-            std::cout << "find: " << *visited.find(i) << std::endl;
             continue;
         }
-
-        std::cout << "i: " << i << std::endl;
 
         // check for all the neighbors that are in the spanning set
         for (size_t j = 0; j < connected[i].size(); j++) {

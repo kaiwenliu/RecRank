@@ -4,7 +4,7 @@ TEST = test
 
 # Add all object files needed for compiling:
 EXE_OBJ = main.o
-OBJS = main.o pagerank.o dijkstra.o
+OBJS = main.o pagerank.o dijkstra.o driver.o
 
 
 # Compiler/linker comfig and object/depfile directory:
