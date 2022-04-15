@@ -5,8 +5,19 @@
 
 #include "../dijkstra.hpp"
 #include "../driver.hpp"
+#include "../pagerank.hpp"
 
 using std::vector;
+
+TEST_CASE("Pagerank Simple", "") {
+    vector<std::pair<int,int>> edges;
+    edges.push_back(std::pair<int,int>(0,1));
+    PageRank pg(edges, 3, 0.85);
+    vector<double> testResults = pg.result(0);
+    REQUIRE(testResults[0] == 0.05);
+    REQUIRE(testResults[2] == 0.05);
+    REQUIRE(testResults[1] == 0.9);
+}
 
 TEST_CASE("Dijkstra simple", "") {
     vector<int> weights = {1, 2, 3};

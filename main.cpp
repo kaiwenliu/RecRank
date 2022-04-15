@@ -35,13 +35,13 @@ int main() {
     std::cout << "edges.size(): " << edges.size() << std::endl;
 
     // run pagerank
-    PageRank pr(edges);
-    vector<int> results = pr.result();
+    PageRank pr(edges, SIZE, 0.85);
+    vector<double> results = pr.result(1);
 
     int start = 0;
     // TODO: create adjacency matrix of bools
     vector<vector<bool>> connected;
-    Dijkstra dijkstra(results, connected, start);
+    // Dijkstra dijkstra(results, connected, start);
 
     return 0;
 }

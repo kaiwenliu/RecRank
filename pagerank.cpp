@@ -3,28 +3,31 @@
 #include <iostream>
 
 
-PageRank::PageRank(const std::vector<std::pair<int, int> > edges) {
+PageRank::PageRank(const std::vector<std::pair<int, int> > edges, int numNodes, double damping) {
     // TODO: create the pagerank and run the algorithm
-    std::pair<int, int> p;
-    p.first = edges.size();
-    p.second = edges.size();
-    std::vector<std::pair<int, int> > ans(1 / (double) edges.size(), p);
-    for(size_t i=0; i< edges.size(); i++){
-        int temp = 0;
-        temp = p.first;
-        p.first = p.second;
-        p.second = temp;
-
-        std::vector<std::pair<int, int> > ans2(1/ (double) edges.size(), p);
-       
+    std::vector<double> temp(numNodes, 0);
+    for (int i = 0; i < numNodes; i++) {
+        graph.push_back(temp);
     }
-    
-    
-    
+    for(size_t i=0; i< edges.size(); i++) {
+        graph[edges[i].first][edges[i].second] += 1; //first used for column
+        temp[edges[i].first] += 1; // keep track of sum of col
+    }
+
+    for(size_t j = 0; j < graph.size(); j++) {
+        for (size_t i = 0; i < graph[i].size(); i++) {
+            if (temp[j] == 0) {
+                graph[j][i] = 1.0/numNodes; //fill with 1/n so it isnt empty
+            }
+            else {
+                graph[j][i] = damping * graph[j][i]/temp[j] + (1.0-damping)/numNodes; //Pagerank dampening
+            }
+        }
+    }
 
 }
 
-vector<int> PageRank::result() const {
+vector<double> PageRank::result(int col) const {
     // return the result
-    return vector<int>();
+    return graph[col]; // returns column, used first dim as column
 }
