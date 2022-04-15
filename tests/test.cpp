@@ -49,10 +49,16 @@ TEST_CASE("Dijkstra medium", "") {
     REQUIRE(nodes[1] < nodes[3]);
 }
 
-TEST_CASE("Driver is_connected", "") {
+TEST_CASE("Driver is_connected small", "") {
     AdjacencyMatrix matrix(4);
     matrix.addEdge(0, 1);
     matrix.addEdge(0, 2);
     matrix.addEdge(2, 3);
+    REQUIRE(is_connected(matrix));
+}
+
+TEST_CASE("Driver is_connected tiny", "") {
+    AdjacencyMatrix matrix(2);
+    matrix.addEdge(0, 1);
     REQUIRE(is_connected(matrix));
 }

@@ -1,6 +1,9 @@
 #include "adjmatrix.hpp"
 
+#include <assert.h>
+
 #include <vector>
+#include <iostream>
 
 using std::vector;
 using std::pair;
@@ -46,7 +49,7 @@ void AdjacencyMatrix::setMatrix(size_t a, size_t b, bool val) {
         return;
     }
 
-    assert(a >= b);
+    assert(a > b);
     matrix[a][b] = val;
 }
 
@@ -59,7 +62,7 @@ bool AdjacencyMatrix::getMatrix(size_t a, size_t b) const {
         return getMatrix(b, a);
     }
 
-    assert(a >= b);
+    assert(a > b);
     return matrix[a][b];
 }
 
@@ -72,6 +75,7 @@ void AdjacencyMatrix::removeEdge(size_t from, size_t to) {
 }
 
 bool AdjacencyMatrix::hasEdge(size_t from, size_t to) const {
+    if (from == to) return false;
     return getMatrix(from, to);
 }
 size_t AdjacencyMatrix::getSize() const {
