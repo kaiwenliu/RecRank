@@ -39,9 +39,7 @@ int main() {
     vector<double> results = pr.result(1);
 
     int start = 0;
-    // TODO: create adjacency matrix of bools
-    vector<vector<bool>> connected;
-    // Dijkstra dijkstra(results, connected, start);
+    Dijkstra dijkstra(results, matrix, start);
 
     return 0;
 }

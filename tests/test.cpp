@@ -9,31 +9,35 @@
 
 using std::vector;
 
+bool equal(double a, double b) {
+  return fabs(a - b) < 1e-6;
+}
+
 TEST_CASE("Pagerank Simple", "") {
     vector<std::pair<int,int>> edges;
     edges.push_back(std::pair<int,int>(0,1));
     PageRank pg(edges, 3, 0.85);
     vector<double> testResults = pg.result(0);
-    REQUIRE(testResults[0] == 0.05);
-    REQUIRE(testResults[2] == 0.05);
-    REQUIRE(testResults[1] == 0.9);
+    REQUIRE(equal(testResults[0], 0.05));
+    REQUIRE(equal(testResults[2], 0.05));
+    REQUIRE(equal(testResults[1], 0.9));
 }
 
 TEST_CASE("Dijkstra simple", "") {
-    vector<int> weights = {1, 2, 3};
+    vector<double> weights = {0.1, 0.2, 0.3};
     vector<vector<bool>> connected(weights.size(), vector<bool>(weights.size(), false));
     connected[0][1] = true;
     connected[1][0] = true;
     connected[0][2] = true;
     connected[2][0] = true;
     Dijkstra dijkstra(weights, connected, 0);
-    vector<int> nodes = dijkstra.generate();
+    vector<double> nodes = dijkstra.generate();
     REQUIRE(nodes[0] < nodes[2]);
     REQUIRE(nodes[2] < nodes[1]);
 }
 
 TEST_CASE("Dijkstra medium", "") {
-    vector<int> weights = {1, 2, 3, 4};
+    vector<double> weights = {0.1, 0.2, 0.3, 0.4};
     vector<vector<bool>> connected(weights.size(), vector<bool>(weights.size(), false));
     connected[0][1] = true;
     connected[1][0] = true;
@@ -44,7 +48,7 @@ TEST_CASE("Dijkstra medium", "") {
     connected[2][3] = true;
     connected[3][2] = true;
     Dijkstra dijkstra(weights, connected, 0);
-    vector<int> nodes = dijkstra.generate();
+    vector<double> nodes = dijkstra.generate();
     REQUIRE(nodes[0] < nodes[2]);
     REQUIRE(nodes[2] < nodes[1]);
     REQUIRE(nodes[1] < nodes[3]);

@@ -15,7 +15,7 @@ public:
     PageRank(const vector<pair<int, int>> edges, int numNodes, double damping);
 
     /**
-     * Get the result of the PageRank algorithm.
+     * Get the result of the PageRank algorithm. Values are between 0 and 1.
      */
     vector<double> result(int col) const;
 

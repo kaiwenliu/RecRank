@@ -3,18 +3,19 @@
 #include <iostream>
 #include <cassert>
 
-Dijkstra::Dijkstra(const vector<int> input_weights, const vector<vector<bool>> connected, int start)
+Dijkstra::Dijkstra(const vector<double>& input_weights, const vector<vector<bool>>& connected, int start)
     : start(start), visited(), connected(connected) {
-        nodes = vector<int>(input_weights.size(), 0);
-        weights = vector<int>(input_weights.size(), 0);
+        nodes = vector<double>(input_weights.size(), 0);
+        weights = vector<double>(input_weights.size(), 0);
         for (size_t i = 0; i < input_weights.size(); i++) {
-            assert(input_weights[i] >= 0);
-            weights[i] = (1/(double)(1 + input_weights[i])) * INT32_MAX;
+            // input weights are between 0 and 1
+            // invert to get weights between 1 and 0
+            weights[i] = 1 - input_weights[i];
         }
     }
 
 int Dijkstra::min_distance() {
-    int min_weight = INT32_MAX;
+    double min_weight = std::numeric_limits<double>::max();
     int min_index = -1;
 
     for (size_t i = 0; i < weights.size(); i++) {
@@ -34,7 +35,7 @@ int Dijkstra::min_distance() {
                 continue;
             }
 
-            int cur_weight = weights[i] + nodes[j];
+            double cur_weight = weights[i] + nodes[j];
             if (cur_weight < min_weight) {
                 min_weight = cur_weight;
                 min_index = i;
@@ -51,7 +52,7 @@ int Dijkstra::min_distance() {
     return min_index;
 }
 
-vector<int> Dijkstra::generate() {
+vector<double> Dijkstra::generate() {
     // add initial node
     nodes[start] = 0;
     visited.insert(start);

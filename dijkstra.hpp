@@ -18,9 +18,9 @@ public:
     /**
      * Create a new Dijkstra object given an adjacendy matrix of weighted nodes
      */
-    Dijkstra(const vector<int> weights, const vector<vector<bool>> connected, int start);
+    Dijkstra(const vector<double>& input_weights, const vector<vector<bool>>& connected, int start);
     // do dijkstra's algorithm
-    vector<int> generate();
+    vector<double> generate();
 
 private:
     // find the node with the minimum distance
@@ -28,10 +28,10 @@ private:
 
     // node weights (we will minimum the weights)
     // these are the distances from start
-    vector<int> nodes;
+    vector<double> nodes;
     int start;
     // node weights
-    vector<int> weights;
+    vector<double> weights;
     set<int> visited;
     vector<vector<bool>> connected;
 };
