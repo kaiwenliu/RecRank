@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cassert>
 
-Dijkstra::Dijkstra(const vector<double>& input_weights, const vector<vector<bool>>& connected, int start)
+Dijkstra::Dijkstra(const vector<double>& input_weights, const AdjacencyMatrix& connected, int start)
     : start(start), visited(), connected(connected) {
         nodes = vector<double>(input_weights.size(), 0);
         weights = vector<double>(input_weights.size(), 0);
@@ -25,9 +25,9 @@ int Dijkstra::min_distance() {
         }
 
         // check for all the neighbors that are in the spanning set
-        for (size_t j = 0; j < connected[i].size(); j++) {
+        for (size_t j = 0; j < connected.getSize(); j++) {
             // must be a neighbor
-            if (!connected[i][j]) {
+            if (!connected.hasEdge(i, j)) {
                 continue;
             }
             // must be in spanning set

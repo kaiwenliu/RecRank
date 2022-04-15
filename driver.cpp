@@ -3,22 +3,15 @@
 #include <vector>
 #include <queue>
 
+#include "adjmatrix.hpp"
+
 using std::vector;
 using std::queue;
 using std::pair;
 
-vector<vector<bool>> to_matrix(vector<pair<int, int>> edges, size_t size) {
-    vector<vector<bool>> answer(size, vector<bool>(size, false));
-    for (auto &edge : edges) {
-      answer[edge.first][edge.second] = true;
-    }
-    return answer;
-}
-
-
-bool is_connected(const vector<vector<bool>>& matrix) {
+bool is_connected(const AdjacencyMatrix& matrix) {
     // do bfs
-    vector<bool> visited(matrix.size(), false);
+    vector<bool> visited(matrix.getSize(), false);
     queue<int> q;
     size_t num_visited = 1;
     q.push(0);
@@ -26,13 +19,13 @@ bool is_connected(const vector<vector<bool>>& matrix) {
     while(!q.empty()) {
         int node = q.front();
         q.pop();
-        for(size_t i = 0; i < matrix.size(); i++) {
-            if(matrix[node][i] && !visited[i]) {
+        for(size_t i = 0; i < matrix.getSize(); i++) {
+            if(matrix.hasEdge(node, i) && !visited[i]) {
                 q.push(i);
                 visited[i] = true;
                 num_visited++;
             }
         }
     }
-    return num_visited == matrix.size();
+    return num_visited == matrix.getSize();
 }

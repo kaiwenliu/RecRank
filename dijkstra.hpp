@@ -4,6 +4,8 @@
 #include <vector>
 #include <set>
 
+#include "adjmatrix.hpp"
+
 using std::vector;
 using std::set;
 
@@ -18,7 +20,7 @@ public:
     /**
      * Create a new Dijkstra object given an adjacendy matrix of weighted nodes
      */
-    Dijkstra(const vector<double>& input_weights, const vector<vector<bool>>& connected, int start);
+    Dijkstra(const vector<double>& input_weights, const AdjacencyMatrix& connected, int start);
     // do dijkstra's algorithm
     vector<double> generate();
 
@@ -33,6 +35,6 @@ private:
     // node weights
     vector<double> weights;
     set<int> visited;
-    vector<vector<bool>> connected;
+    AdjacencyMatrix connected;
 };
 

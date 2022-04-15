@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-PageRank::PageRank(const std::vector<std::pair<int, int> > edges, int numNodes, double damping) {
+PageRank::PageRank(const std::vector<std::pair<size_t, size_t> > edges, int numNodes, double damping) {
     // TODO: create the pagerank and run the algorithm
     std::vector<double> temp(numNodes, 0);
     for (int i = 0; i < numNodes; i++) {

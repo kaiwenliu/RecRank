@@ -8,6 +8,7 @@
 #include "driver.hpp"
 #include "pagerank.hpp"
 #include "dijkstra.hpp"
+#include "adjmatrix.hpp"
 
 using namespace csv;
 using std::vector;
@@ -18,15 +19,15 @@ using std::unordered_map;
 int main() {
     // load edges
     CSVReader reader("data/edges.csv");
-    std::vector<std::pair<int, int>> edges;
+    std::vector<std::pair<size_t, size_t>> edges;
     for (CSVRow& row: reader) {
-        int id_1 = row["id_1"].get<int>();
-        int id_2 = row["id_2"].get<int>();
-        std::pair<int, int> edge(id_1, id_2);
+        int id_1 = row["id_1"].get<size_t>();
+        int id_2 = row["id_2"].get<size_t>();
+        std::pair<size_t, size_t> edge(id_1, id_2);
         edges.push_back(edge);
     }
 
-    vector<vector<bool>> matrix = to_matrix(edges, SIZE);
+    AdjacencyMatrix matrix(edges);
     if (!is_connected(matrix)) {
         std::cout << "Graph is not connected" << std::endl;
         return 1;

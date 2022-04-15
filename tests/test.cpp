@@ -6,6 +6,7 @@
 #include "../dijkstra.hpp"
 #include "../driver.hpp"
 #include "../pagerank.hpp"
+#include "../adjmatrix.hpp"
 
 using std::vector;
 
@@ -14,8 +15,8 @@ bool equal(double a, double b) {
 }
 
 TEST_CASE("Pagerank Simple", "") {
-    vector<std::pair<int,int>> edges;
-    edges.push_back(std::pair<int,int>(0,1));
+    vector<std::pair<size_t, size_t>> edges;
+    edges.push_back(std::pair<size_t, size_t>(0,1));
     PageRank pg(edges, 3, 0.85);
     vector<double> testResults = pg.result(0);
     REQUIRE(equal(testResults[0], 0.05));
@@ -25,11 +26,9 @@ TEST_CASE("Pagerank Simple", "") {
 
 TEST_CASE("Dijkstra simple", "") {
     vector<double> weights = {0.1, 0.2, 0.3};
-    vector<vector<bool>> connected(weights.size(), vector<bool>(weights.size(), false));
-    connected[0][1] = true;
-    connected[1][0] = true;
-    connected[0][2] = true;
-    connected[2][0] = true;
+    AdjacencyMatrix connected(weights.size());
+    connected.addEdge(0, 1);
+    connected.addEdge(0, 2);
     Dijkstra dijkstra(weights, connected, 0);
     vector<double> nodes = dijkstra.generate();
     REQUIRE(nodes[0] < nodes[2]);
@@ -38,15 +37,11 @@ TEST_CASE("Dijkstra simple", "") {
 
 TEST_CASE("Dijkstra medium", "") {
     vector<double> weights = {0.1, 0.2, 0.3, 0.4};
-    vector<vector<bool>> connected(weights.size(), vector<bool>(weights.size(), false));
-    connected[0][1] = true;
-    connected[1][0] = true;
-    connected[0][2] = true;
-    connected[2][0] = true;
-    connected[1][3] = true;
-    connected[3][1] = true;
-    connected[2][3] = true;
-    connected[3][2] = true;
+    AdjacencyMatrix connected(weights.size());
+    connected.addEdge(0, 1);
+    connected.addEdge(0, 2);
+    connected.addEdge(1, 3);
+    connected.addEdge(2, 3);
     Dijkstra dijkstra(weights, connected, 0);
     vector<double> nodes = dijkstra.generate();
     REQUIRE(nodes[0] < nodes[2]);
@@ -54,24 +49,10 @@ TEST_CASE("Dijkstra medium", "") {
     REQUIRE(nodes[1] < nodes[3]);
 }
 
-TEST_CASE("Driver to_matrix", "") {
-    vector<pair<int, int>> edges = {
-        {0, 1},
-        {1, 0},
-        {2, 1}
-    };
-    vector<vector<bool>> matrix = to_matrix(edges, 3);
-    for (auto &edge : edges) {
-        REQUIRE(matrix[edge.first][edge.second]);
-    }
-}
-
 TEST_CASE("Driver is_connected", "") {
-    vector<vector<bool>> matrix = {
-        {false, true, false, false},
-        {true, false, true, false},
-        {false, true, false, true},
-        {false, false, true, false}
-    };
+    AdjacencyMatrix matrix(4);
+    matrix.addEdge(0, 1);
+    matrix.addEdge(0, 2);
+    matrix.addEdge(2, 3);
     REQUIRE(is_connected(matrix));
 }
