@@ -14,7 +14,7 @@ Week 2 Progress:
 
 
 Week 3 Progress: 
-  - We achieved the goal of incorporating the data with Djikstra and PageRank algorithms. 
+  - We achieved the goal of incorporating the Djikstra and PageRank algorithms. 
   - Richard and Sahith accomplished the task of implementing Djikstra's algorithm and Kevin implemented the PageRank algorithm.
   - We didn't have any problems reaching our goal.
   - For next week, we plan to implement the BFS traversal and test the project with it. 
