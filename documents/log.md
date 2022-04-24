@@ -18,3 +18,10 @@ Week 3 Progress:
   - Richard and Sahith accomplished the task of implementing Djikstra's algorithm and Kevin implemented the PageRank algorithm.
   - We didn't have any problems reaching our goal.
   - For next week, we plan to implement the BFS traversal and test the project with it. 
+
+Week 4 Progress:
+  - We revised our implementation of Dijkstra's algorithm
+    - We changed our implementation to use an adjacency list instead of an
+      adjacency matrix for better space efficiency
+    - We fixed the edge weight calculation to correctly average the weight of
+      two adjaceny node PageRank weights
