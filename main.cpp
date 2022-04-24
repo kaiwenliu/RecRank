@@ -59,17 +59,48 @@ int main() {
 
     std::cout << "edges.size(): " << edges.size() << std::endl;
 
+    // target node
+    size_t start = 3;
+    std::cout << "start: " << start << std::endl;
+
     // run pagerank
     PageRank pr(edges, matrix.getSize(), 0.85);
-    vector<double> results = pr.result(1);
+    vector<double> results = pr.result(start);
 
     std::cout << "PageRank results:" << std::endl;
     for (size_t i = 0; i < results.size(); i++) {
         std::cout << i << ": " << results[i] << std::endl;
     }
 
-    int start = 0;
-    Dijkstra dijkstra(results, matrix, start);
+    // convert pagerank results to weights by averaging adjacent nodes
+    vector<pair<pair<size_t, size_t>, double>> weighted_edges(edges.size());
+    size_t num_nodes = matrix.getSize();
+    for (size_t i = 0; i < edges.size(); i++) {
+        double weight = results[edges[i].first] + results[edges[i].second];
+        std::cout << "weight: " << weight << std::endl;
+        // take the reciprocal because higher pagerank is better
+        weighted_edges[i] = {edges[i], 1 / (1 + weight / 2)};
+    }
+    // convert to adjacency list
+    vector<vector<pair<size_t, double>>> adjacency_list(num_nodes);
+    for (const auto& edge : weighted_edges) {
+        adjacency_list[edge.first.first].push_back({edge.first.second, edge.second});
+        adjacency_list[edge.first.second].push_back({edge.first.first, edge.second});
+    }
+
+    for (size_t i = 0; i < adjacency_list.size(); i++) {
+        std::cout << "Node " << i << ": ";
+        for (const auto& edge : adjacency_list[i]) {
+            std::cout << edge.first << " (" << edge.second << ") ";
+        }
+        std::cout << std::endl;
+    }
+
+    Dijkstra dijkstra(adjacency_list, start);
+    vector<double> distances = dijkstra.generate();
+    for (size_t i = 0; i < distances.size(); i++) {
+        std::cout << "Distance from " << start << " to " << i << ": " << distances[i] << std::endl;
+    }
 
     return 0;
 }

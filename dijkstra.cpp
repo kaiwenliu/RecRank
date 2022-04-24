@@ -2,68 +2,40 @@
 
 #include <iostream>
 #include <cassert>
+#include <vector>
+#include <queue>
 
-Dijkstra::Dijkstra(const vector<double>& input_weights, const AdjacencyMatrix& connected, int start)
-    : start(start), visited(), connected(connected) {
-        nodes = vector<double>(input_weights.size(), 0);
-        weights = vector<double>(input_weights.size(), 0);
-        for (size_t i = 0; i < input_weights.size(); i++) {
-            // input weights are between 0 and 1
-            // invert to get weights between 1 and 0
-            weights[i] = 1 - input_weights[i];
-        }
-    }
+using std::vector;
+using std::pair;
+using std::priority_queue;
 
-int Dijkstra::min_distance() {
-    double min_weight = std::numeric_limits<double>::max();
-    int min_index = -1;
+Dijkstra::Dijkstra(const vector<vector<pair<size_t, double>>>& adjacency_list, size_t start) {
+    vector<double> dists(adjacency_list.size(), std::numeric_limits<double>::max());
+    vector<size_t> prevs(adjacency_list.size(), 0);
+    priority_queue<size_t> q;
 
-    for (size_t i = 0; i < weights.size(); i++) {
-        // must not be in spanning set
-        if (visited.find(i) != visited.end()) {
-            continue;
-        }
+    dists[start] = 0;
+    q.push(start);
 
-        // check for all the neighbors that are in the spanning set
-        for (size_t j = 0; j < connected.getSize(); j++) {
-            // must be a neighbor
-            if (!connected.hasEdge(i, j)) {
-                continue;
-            }
-            // must be in spanning set
-            if (visited.find(j) == visited.end()) {
-                continue;
-            }
+    while (!q.empty()) {
+        size_t curr = q.top();
+        q.pop();
 
-            double cur_weight = weights[i] + nodes[j];
-            if (cur_weight < min_weight) {
-                min_weight = cur_weight;
-                min_index = i;
+        for (const auto& edge : adjacency_list[curr]) {
+            size_t neighbor = edge.first;
+            double dist = edge.second;
+
+            if (dists[curr] + dist < dists[neighbor]) {
+                dists[neighbor] = dists[curr] + dist;
+                prevs[neighbor] = curr;
+                q.push(neighbor);
             }
         }
     }
 
-    if (min_index == -1) {
-        // every node is in the spanning set
-        return -1;
-    }
-    nodes[min_index] = min_weight;
-    visited.insert(min_index);
-    return min_index;
+    results = dists;
 }
 
 vector<double> Dijkstra::generate() {
-    // add initial node
-    nodes[start] = 0;
-    visited.insert(start);
-
-    while (visited.size() != nodes.size()) {
-        int min_index = min_distance();
-        if (min_index == -1) {
-            // we should be done
-            break;
-        }
-    }
-
-    return nodes;
+    return results;
 }
