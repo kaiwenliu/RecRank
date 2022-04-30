@@ -7,6 +7,7 @@
 #include "../driver.hpp"
 #include "../pagerank.hpp"
 #include "../adjmatrix.hpp"
+#include "../bfs.hpp"
 
 using std::vector;
 
@@ -77,4 +78,21 @@ TEST_CASE("Driver is_connected tiny", "") {
     AdjacencyMatrix matrix(2);
     matrix.addEdge(0, 1);
     REQUIRE(is_connected(matrix));
+}
+
+TEST_CASE("BFS works tiny", "") {
+    vector<vector<pair<size_t, double>>> adjacency_list = {
+        {{1, 1234}, {2, 5678}},
+        {{2, 3456}, {0, 1234}, {3, 5678}},
+        {{0, 5678}, {1, 1234}, {4, 1234}},
+        {{1, 1234}},
+        {{2, 5678}},
+    };
+    vector<double> weights = {0, 10, 20, 30, 40};
+    BFS bfs(adjacency_list, weights, 0);
+    vector<pair<double, size_t>> best = bfs.generate();
+    REQUIRE(best[0].first == 40);
+    REQUIRE(best[0].second == 4);
+    REQUIRE(best[1].first == 30);
+    REQUIRE(best[1].second == 3);
 }

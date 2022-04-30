@@ -25,3 +25,13 @@ Week 4 Progress:
       adjacency matrix for better space efficiency
     - We fixed the edge weight calculation to correctly average the weight of
       two adjaceny node PageRank weights
+
+Week 5 Progress:
+  - We implemented BFS
+    - We added unit test for BFS
+    - The BFS implementation finds nodes near the target that are not direct neighbors
+    - It limits results to 100 nodes and sorts by the pagerank score
+    - The BFS results will be recommended to users as potential connections
+    - Sahith and Richard worked on this
+  - We fixed pagerank
+    - Kevin worked on this

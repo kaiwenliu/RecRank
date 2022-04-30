@@ -9,6 +9,7 @@
 #include "pagerank.hpp"
 #include "dijkstra.hpp"
 #include "adjmatrix.hpp"
+#include "bfs.hpp"
 
 using namespace csv;
 using std::vector;
@@ -101,6 +102,8 @@ int main() {
     for (size_t i = 0; i < distances.size(); i++) {
         std::cout << "Distance from " << start << " to " << i << ": " << distances[i] << std::endl;
     }
+
+    BFS bfs(adjacency_list, distances, start);
 
     return 0;
 }
