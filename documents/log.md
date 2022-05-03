@@ -35,3 +35,10 @@ Week 5 Progress:
     - Sahith and Richard worked on this
   - We fixed pagerank
     - Kevin worked on this
+
+Week 6 Progress:
+  - Fixed pagerank algorithm
+    - Switched to an adjacency list implementation with iterative feedforward to
+      avoid memory usage issues with adjacency matrix
+  - Add a command line interface that accepts a Github username as input
+    - Has a help page which shows if the input is invalid
