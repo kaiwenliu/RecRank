@@ -5,7 +5,7 @@ using std::pair;
 
 class BFS {
 public:
-    BFS(const vector<vector<pair<size_t, double>>> &adjacency_list, const vector<double> &weights, size_t start);
+    BFS(const vector<vector<pair<size_t, double>>> &adjacency_list, const vector<double> &weights, size_t start, size_t limit);
 
     vector<pair<double, size_t>> generate();
 

@@ -14,6 +14,7 @@
 using namespace csv;
 using std::vector;
 using std::unordered_map;
+using std::string;
 
 const size_t NUM_NODES = 37700;
 const bool DEBUG = false;
@@ -31,6 +32,16 @@ vector<pair<size_t, size_t>> load_edges() {
         }
     }
     return edges;
+}
+
+vector<string> load_names() {
+    CSVReader reader("data/names.csv");
+    vector<string> names;
+    for (CSVRow& row: reader) {
+        string name = row["name"].get<string>();
+        names.push_back(name);
+    }
+    return names;
 }
 
 vector<pair<size_t, size_t>> small_edges() {
@@ -53,7 +64,31 @@ vector<pair<size_t, size_t>> small_edges() {
     };
 }
 
-int main() {
+void print_usage(char* program_name) {
+    std::cout << "Usage: " << program_name << " <github_username>" << std::endl;
+}
+
+int main(int argc, char* argv[]) {
+    if (argc != 2 || strcmp(argv[1], "--help") == 0 || strcmp(argv[1], "-h") == 0) {
+        print_usage(argv[0]);
+        return argc == 2 ? 0 : 1;
+    }
+    string username = argv[1];
+
+    size_t start = NUM_NODES + 1;
+    vector<string> names = load_names();
+    // look for index of username
+    for (size_t i = 0; i < names.size(); i++) {
+        if (names[i] == username) {
+            start = i;
+            break;
+        }
+    }
+    if (start == NUM_NODES + 1) {
+        std::cout << "Username '" << username << "' not found" << std::endl;
+        return 2;
+    }
+
     vector<pair<size_t, size_t>> edges = load_edges();
     /* vector<pair<size_t, size_t>> edges = small_edges(); */
 
@@ -64,11 +99,7 @@ int main() {
         return 1;
     }
 
-    std::cout << "edges.size(): " << edges.size() << std::endl;
-
-    // target node
-    size_t start = 3;
-    std::cout << "start node: " << start << std::endl;
+    std::cout << "Analyzing connections..." << std::endl;
 
     // run pagerank
     AdjacencyMatrix matrix(edges);
@@ -84,7 +115,7 @@ int main() {
 
     // convert pagerank results to weights by averaging adjacent nodes
     vector<pair<pair<size_t, size_t>, double>> weighted_edges(edges.size());
-    size_t num_nodes = matrix.getSize();
+    size_t num_nodes = NUM_NODES;
     for (size_t i = 0; i < edges.size(); i++) {
         double weight = results[edges[i].first] + results[edges[i].second];
         if (DEBUG) {
@@ -119,11 +150,13 @@ int main() {
         }
     }
 
-    BFS bfs(adjacency_list, distances, start);
+    size_t limit = 10;
+    BFS bfs(adjacency_list, distances, start, limit);
     vector<pair<double, size_t>> recommendations = bfs.generate();
 
+    std::cout << "Top " << limit << " follower recommendations for " << username << ":" << std::endl;
     for (const auto& rec : recommendations) {
-        std::cout << "Recomendation: " << rec.second << " (" << rec.first << ")" << std::endl;
+        printf("    %-20s (score: %.3g)\n", names[rec.second].c_str(), rec.first);
     }
 
     return 0;

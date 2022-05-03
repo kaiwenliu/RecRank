@@ -12,7 +12,8 @@ using std::queue;
 BFS::BFS(
     const vector<vector<pair<size_t, double>>> &adjacency_list,
     const vector<double> &weights,
-    size_t start
+    size_t start,
+    size_t limit
 ) {
     vector<bool> visited(adjacency_list.size(), false);
     vector<size_t> depth(adjacency_list.size(), 0);
@@ -33,10 +34,13 @@ BFS::BFS(
                 // only consider nodes that are not direct neighbors with the start node
                 if (depth[edge.first] > 1) {
                     neighbors.push_back({weights[edge.first], edge.first});
+                    if (neighbors.size() >= limit) {
+                        break;
+                    }
                 }
             }
         }
-        if (neighbors.size() > 50) {
+        if (neighbors.size() >= limit) {
             break;
         }
     }
