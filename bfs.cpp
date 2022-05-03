@@ -46,7 +46,6 @@ BFS::BFS(
     }
 
     sort(neighbors.begin(), neighbors.end());
-    reverse(neighbors.begin(), neighbors.end());
 }
 
 vector<pair<double, size_t>> BFS::generate() {
