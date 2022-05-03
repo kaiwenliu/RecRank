@@ -16,6 +16,7 @@ using std::vector;
 using std::unordered_map;
 
 const size_t NUM_NODES = 37700;
+const bool DEBUG = false;
 
 vector<pair<size_t, size_t>> load_edges() {
     // load edges
@@ -67,16 +68,18 @@ int main() {
 
     // target node
     size_t start = 3;
-    std::cout << "start: " << start << std::endl;
+    std::cout << "start node: " << start << std::endl;
 
     // run pagerank
     AdjacencyMatrix matrix(edges);
     PageRank pr(edges, matrix.getSize(), 0.85);
     vector<double> results = pr.result(start);
 
-    std::cout << "PageRank results:" << std::endl;
-    for (size_t i = 0; i < results.size(); i++) {
-        std::cout << i << ": " << results[i] << std::endl;
+    if (DEBUG) {
+        std::cout << "PageRank results:" << std::endl;
+        for (size_t i = 0; i < results.size(); i++) {
+            std::cout << i << ": " << results[i] << std::endl;
+        }
     }
 
     // convert pagerank results to weights by averaging adjacent nodes
@@ -84,7 +87,9 @@ int main() {
     size_t num_nodes = matrix.getSize();
     for (size_t i = 0; i < edges.size(); i++) {
         double weight = results[edges[i].first] + results[edges[i].second];
-        std::cout << "weight: " << weight << std::endl;
+        if (DEBUG) {
+            std::cout << "weight: " << weight << std::endl;
+        }
         // take the reciprocal because higher pagerank is better
         weighted_edges[i] = {edges[i], 1 / (1 + weight / 2)};
     }
@@ -95,21 +100,31 @@ int main() {
         adjacency_list[edge.first.second].push_back({edge.first.first, edge.second});
     }
 
-    for (size_t i = 0; i < adjacency_list.size(); i++) {
-        std::cout << "Node " << i << ": ";
-        for (const auto& edge : adjacency_list[i]) {
-            std::cout << edge.first << " (" << edge.second << ") ";
+    if (DEBUG) {
+        for (size_t i = 0; i < adjacency_list.size(); i++) {
+            std::cout << "Node " << i << ": ";
+            for (const auto& edge : adjacency_list[i]) {
+                std::cout << edge.first << " (" << edge.second << ") ";
+            }
+            std::cout << std::endl;
         }
-        std::cout << std::endl;
     }
 
     Dijkstra dijkstra(adjacency_list, start);
     vector<double> distances = dijkstra.generate();
-    for (size_t i = 0; i < distances.size(); i++) {
-        std::cout << "Distance from " << start << " to " << i << ": " << distances[i] << std::endl;
+
+    if (DEBUG) {
+        for (size_t i = 0; i < distances.size(); i++) {
+            std::cout << "Distance from " << start << " to " << i << ": " << distances[i] << std::endl;
+        }
     }
 
     BFS bfs(adjacency_list, distances, start);
+    vector<pair<double, size_t>> recommendations = bfs.generate();
+
+    for (const auto& rec : recommendations) {
+        std::cout << "Recomendation: " << rec.second << " (" << rec.first << ")" << std::endl;
+    }
 
     return 0;
 }
