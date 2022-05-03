@@ -6,7 +6,6 @@
 #include "../dijkstra.hpp"
 #include "../driver.hpp"
 #include "../pagerank.hpp"
-#include "../adjmatrix.hpp"
 #include "../bfs.hpp"
 
 using std::vector;

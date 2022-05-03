@@ -4,10 +4,9 @@
 #include <vector>
 #include <set>
 
-#include "adjmatrix.hpp"
-
 using std::vector;
 using std::set;
+using std::pair;
 
 struct WeightedEdge {
     int from;

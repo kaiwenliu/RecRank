@@ -8,7 +8,6 @@
 #include "driver.hpp"
 #include "pagerank.hpp"
 #include "dijkstra.hpp"
-#include "adjmatrix.hpp"
 #include "bfs.hpp"
 
 using namespace csv;
@@ -102,8 +101,7 @@ int main(int argc, char* argv[]) {
     std::cout << "Analyzing connections..." << std::endl;
 
     // run pagerank
-    AdjacencyMatrix matrix(edges);
-    PageRank pr(edges, matrix.getSize(), 0.85);
+    PageRank pr(edges, NUM_NODES, 0.85);
     vector<double> results = pr.result(start);
 
     if (DEBUG) {

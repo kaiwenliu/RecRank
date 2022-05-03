@@ -3,8 +3,6 @@
 #include <vector>
 #include <queue>
 
-#include "adjmatrix.hpp"
-
 using std::vector;
 using std::queue;
 using std::pair;
