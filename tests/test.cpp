@@ -67,17 +67,13 @@ TEST_CASE("Dijkstra medium", "") {
 }
 
 TEST_CASE("Driver is_connected small", "") {
-    AdjacencyMatrix matrix(4);
-    matrix.addEdge(0, 1);
-    matrix.addEdge(0, 2);
-    matrix.addEdge(2, 3);
-    REQUIRE(is_connected(matrix));
+    vector<pair<size_t, size_t>> edges = {{0, 1}, {0, 2}, {2, 3}};
+    REQUIRE(is_connected(edges, 4));
 }
 
 TEST_CASE("Driver is_connected tiny", "") {
-    AdjacencyMatrix matrix(2);
-    matrix.addEdge(0, 1);
-    REQUIRE(is_connected(matrix));
+    vector<pair<size_t, size_t>> edges = {{0, 1}};
+    REQUIRE(is_connected(edges, 2));
 }
 
 TEST_CASE("BFS works tiny", "") {

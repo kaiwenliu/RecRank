@@ -15,15 +15,19 @@ using namespace csv;
 using std::vector;
 using std::unordered_map;
 
+const size_t NUM_NODES = 37700;
+
 vector<pair<size_t, size_t>> load_edges() {
     // load edges
     CSVReader reader("data/edges.csv");
     vector<pair<size_t, size_t>> edges;
     for (CSVRow& row: reader) {
-        int id_1 = row["id_1"].get<size_t>();
-        int id_2 = row["id_2"].get<size_t>();
-        pair<size_t, size_t> edge(id_1, id_2);
-        edges.push_back(edge);
+        size_t id_1 = row["id_1"].get<size_t>();
+        size_t id_2 = row["id_2"].get<size_t>();
+        if (id_1 < NUM_NODES && id_2 < NUM_NODES) {
+            pair<size_t, size_t> edge(id_1, id_2);
+            edges.push_back(edge);
+        }
     }
     return edges;
 }
@@ -49,12 +53,13 @@ vector<pair<size_t, size_t>> small_edges() {
 }
 
 int main() {
-    /* vector<pair<size_t, size_t>> edges = load_edges(); */
-    vector<pair<size_t, size_t>> edges = small_edges();
+    vector<pair<size_t, size_t>> edges = load_edges();
+    /* vector<pair<size_t, size_t>> edges = small_edges(); */
 
-    AdjacencyMatrix matrix(edges);
-    if (!is_connected(matrix)) {
-        std::cout << "Graph is not connected" << std::endl;
+    std::cout << "Loaded " << edges.size() << " edges" << std::endl;
+
+    if (!is_connected(edges, NUM_NODES)) {
+        std::cout << "Error: graph is not connected" << std::endl;
         return 1;
     }
 
@@ -65,6 +70,7 @@ int main() {
     std::cout << "start: " << start << std::endl;
 
     // run pagerank
+    AdjacencyMatrix matrix(edges);
     PageRank pr(edges, matrix.getSize(), 0.85);
     vector<double> results = pr.result(start);
 
