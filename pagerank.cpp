@@ -1,11 +1,15 @@
 #include "pagerank.hpp"
 
+#include <cmath>
 #include <vector>
 
 using std::vector;
 
-PageRank::PageRank(const std::vector<std::pair<size_t, size_t> > edges, int numNodes, double damping) {
+PageRank::PageRank(const std::vector<std::pair<size_t, size_t> > edges, size_t numNodes, double damping) {
+    // max iterations to run pagerank
     const size_t numIterations = 100;
+    // stop when the difference between the current and previous pagerank is less than this
+    const double epsilon = 1e-8;
 
     // vector of indicies with no outbound edges
     vector<size_t> noOutbound;
@@ -41,6 +45,16 @@ PageRank::PageRank(const std::vector<std::pair<size_t, size_t> > edges, int numN
         }
         for (double &pagerank : newPagerank) {
             pagerank += inc;
+        }
+        double max_diff = 0;
+        for (size_t i = 0; i < numNodes; i++) {
+            double diff = abs(newPagerank[i] - oldPagerank[i]);
+            if (diff > max_diff) {
+                max_diff = diff;
+            }
+        }
+        if (max_diff < epsilon) {
+            break;
         }
         oldPagerank = newPagerank;
     }
