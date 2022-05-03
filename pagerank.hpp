@@ -17,11 +17,9 @@ public:
     /**
      * Get the result of the PageRank algorithm. Values are between 0 and 1.
      */
-    vector<double> result(int col) const;
+    vector<double> result() const;
 
-    // add member functions if necessary
 private:
-    // use an adjaceny matrix to represent the graph?
-    vector<vector<double>> graph; //Each entry is the chance that the column number node goes to the row number node
+    vector<double> _pageRank;
 
 };

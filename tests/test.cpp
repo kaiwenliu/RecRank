@@ -14,6 +14,11 @@ bool equal(double a, double b) {
   return fabs(a - b) < 1e-6;
 }
 
+bool loose_equal(double a, double b) {
+  return fabs(a - b) < 0.01;
+}
+
+
 vector<vector<pair<size_t, double>>> to_adjacency_list(const vector<pair<size_t, size_t>>& edges, const vector<double>& weights) {
     // convert to weights by averaging adjacent nodes
     vector<pair<pair<size_t, size_t>, double>> weighted_edges(edges.size());
@@ -35,13 +40,34 @@ vector<vector<pair<size_t, double>>> to_adjacency_list(const vector<pair<size_t,
 }
 
 TEST_CASE("Pagerank Simple", "") {
-    vector<std::pair<size_t, size_t>> edges;
-    edges.push_back(std::pair<size_t, size_t>(0,1));
-    PageRank pg(edges, 3, 0.85);
-    vector<double> testResults = pg.result(0);
-    REQUIRE(equal(testResults[0], 0.05));
-    REQUIRE(equal(testResults[2], 0.05));
-    REQUIRE(equal(testResults[1], 0.9));
+    vector<std::pair<size_t, size_t>> edges = {
+        {0, 1},
+        {0, 2},
+        {0, 3},
+        {1, 0},
+        {2, 0},
+        {3, 0},
+    };
+    PageRank pg(edges, 4, 0.85);
+    vector<double> res = pg.result();
+    REQUIRE(loose_equal(res[0], 0.47973));
+    REQUIRE(loose_equal(res[1], 0.17342));
+    REQUIRE(equal(res[2], res[1]));
+    REQUIRE(equal(res[3], res[1]));
+}
+
+TEST_CASE("Pagerank Complex", "") {
+    vector<std::pair<size_t, size_t>> edges = {
+        {0, 1},
+        {0, 3},
+        {1, 2},
+        {1, 3},
+        {3, 0},
+        {4, 3},
+    };
+    PageRank pg(edges, 5, 0.85);
+    vector<double> res = pg.result();
+    REQUIRE(loose_equal(res[3], 0.31132));
 }
 
 TEST_CASE("Dijkstra simple", "") {

@@ -102,7 +102,7 @@ int main(int argc, char* argv[]) {
 
     // run pagerank
     PageRank pr(edges, NUM_NODES, 0.85);
-    vector<double> results = pr.result(start);
+    vector<double> results = pr.result();
 
     if (DEBUG) {
         std::cout << "PageRank results:" << std::endl;

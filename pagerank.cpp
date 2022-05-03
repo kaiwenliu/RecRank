@@ -1,33 +1,52 @@
 #include "pagerank.hpp"
 
-#include <iostream>
+#include <vector>
 
+using std::vector;
 
 PageRank::PageRank(const std::vector<std::pair<size_t, size_t> > edges, int numNodes, double damping) {
-    // TODO: create the pagerank and run the algorithm
-    std::vector<double> temp(numNodes, 0);
-    for (int i = 0; i < numNodes; i++) {
-        graph.push_back(temp);
-    }
-    for(size_t i=0; i< edges.size(); i++) {
-        graph[edges[i].first][edges[i].second] += 1; //first used for column
-        temp[edges[i].first] += 1; // keep track of sum of col
-    }
+    const size_t numIterations = 100;
 
-    for(size_t j = 0; j < graph.size(); j++) {
-        for (size_t i = 0; i < graph[i].size(); i++) {
-            if (temp[j] == 0) {
-                graph[j][i] = 1.0/numNodes; //fill with 1/n so it isnt empty
-            }
-            else {
-                graph[j][i] = damping * graph[j][i]/temp[j] + (1.0-damping)/numNodes; //Pagerank dampening
-            }
+    // vector of indicies with no outbound edges
+    vector<size_t> noOutbound;
+    // calculate decay as damping / number of outbound edges
+    vector<double> decayFactor(numNodes, 0);
+    for (auto edge : edges) {
+        decayFactor[edge.first] += 1;
+    }
+    for (size_t i = 0; i < decayFactor.size(); i++) {
+        double numEdges = decayFactor[i];
+        if (numEdges > 0) {
+            decayFactor[i] = damping / numEdges;
+        } else {
+            noOutbound.push_back(i);
         }
     }
 
+    vector<double> oldPagerank(numNodes, 1.0 / numNodes);
+    for (size_t i = 0; i < numIterations; i++) {
+        vector<double> newPagerank(numNodes, 0);
+        // outbound edges
+        for (auto edge : edges) {
+            newPagerank[edge.second] += oldPagerank[edge.first] * decayFactor[edge.first];
+        }
+        // add (1-d)/N to all nodes
+        for (double &pagerank : newPagerank) {
+            pagerank += (1 - damping) / numNodes;
+        }
+        // add residual for no outbound edges
+        double inc = 0;
+        for (size_t node : noOutbound) {
+            inc += damping * oldPagerank[node] / numNodes;
+        }
+        for (double &pagerank : newPagerank) {
+            pagerank += inc;
+        }
+        oldPagerank = newPagerank;
+    }
+    _pageRank = oldPagerank;
 }
 
-vector<double> PageRank::result(int col) const {
-    // return the result
-    return graph[col]; // returns column, used first dim as column
+vector<double> PageRank::result() const {
+    return _pageRank;
 }
