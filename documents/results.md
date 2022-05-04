@@ -85,4 +85,4 @@ Case 1 Passing:
 The answer to your leading question – You should direct address your proposed leading question. How did you answer this question? What did you discover? If your project was ultimately unsuccessful, give a brief reflection about what worked and what you would do differently as a team.
 
 
-- We answered 
+- We answered the question of finding out a way to see similar developers and suggest those as followers. We answered this question 
