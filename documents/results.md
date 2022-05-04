@@ -1,5 +1,3 @@
-The output and correctness of each algorithm – You should summarize, visualize, or highlight some part of the full-scale run of each algorithm. Additionally, the report should briefly describe what tests you performed to confirm that each algorithm was working as intended.
-
 - For the PageRank algorithm,
 - <img width="986" alt="Screen Shot 2022-05-03 at 8 27 59 PM" src="https://media.github-dev.cs.illinois.edu/user/14404/files/bf7d295f-708f-40b0-92f7-bdb7498695d7">, our output of the function matches the expected as shown in the picture.
 - ![alt test](https://courses.cs.washington.edu/courses/cse373/17au/project3/diagrams/pagerank-simple-04.png).
@@ -82,7 +80,7 @@ Case 1 Passing:
 
 
 
-The answer to your leading question – You should direct address your proposed leading question. How did you answer this question? What did you discover? If your project was ultimately unsuccessful, give a brief reflection about what worked and what you would do differently as a team.
-
-
-- We answered the question of finding out a way to see similar developers and suggest those as followers. We answered this question 
+- We answered the question of finding out a way to see similar developers and
+  suggest those as followers. We created a program that would suggest similar
+  developers as new followers. We successfully answered our question because our
+  recommendation engine works.
