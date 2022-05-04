@@ -112,8 +112,9 @@ TEST_CASE("BFS works tiny", "") {
     vector<double> weights = {0, 10, 20, 30, 40};
     BFS bfs(adjacency_list, weights, 0, 100);
     vector<pair<double, size_t>> best = bfs.generate();
-    REQUIRE(best[0].first == 40);
-    REQUIRE(best[0].second == 4);
-    REQUIRE(best[1].first == 30);
-    REQUIRE(best[1].second == 3);
+    REQUIRE(best[0].first == 30);
+    REQUIRE(best[0].second == 3);
+    REQUIRE(best[1].first == 40);
+    REQUIRE(best[1].second == 4);
+    REQUIRE(best.size() == 2);
 }
