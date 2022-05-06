@@ -5,9 +5,47 @@ For the PageRank algorithm, our output of the function matches the expected as s
 - Example 1:
 
   ![alt test](https://courses.cs.washington.edu/courses/cse373/17au/project3/diagrams/pagerank-simple-04.png).
+  
+  
+```cpp
+TEST_CASE("Pagerank Simple", "") {
+    vector<std::pair<size_t, size_t>> edges = {
+        {0, 1},
+        {0, 2},
+        {0, 3},
+        {1, 0},
+        {2, 0},
+        {3, 0},
+    };
+    PageRank pg(edges, 4, 0.85);
+    vector<double> res = pg.result();
+    REQUIRE(loose_equal(res[0], 0.47973));
+    REQUIRE(loose_equal(res[1], 0.17342));
+    REQUIRE(equal(res[2], res[1]));
+    REQUIRE(equal(res[3], res[1]));
+}
+```
+
 - Example 2:
 
   ![alt_text](https://courses.cs.washington.edu/courses/cse373/17au/project3/diagrams/pagerank-complex-04.png).
+  
+```cpp
+
+TEST_CASE("Pagerank Complex", "") {
+    vector<std::pair<size_t, size_t>> edges = {
+        {0, 1},
+        {0, 3},
+        {1, 2},
+        {1, 3},
+        {3, 0},
+        {4, 3},
+    };
+    PageRank pg(edges, 5, 0.85);
+    vector<double> res = pg.result();
+    REQUIRE(loose_equal(res[3], 0.31132));
+}
+```
 
 ## Algorithm 2
 For Djikstra's algorithm, we have created test cases to make sure it works correctly.
