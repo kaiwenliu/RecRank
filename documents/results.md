@@ -2,7 +2,7 @@
 
 ## Algorithm 1
 For the PageRank algorithm, our output of the function matches the expected as shown in the picture.
-- Example 1:
+- Case 1:
 
   ![alt test](https://courses.cs.washington.edu/courses/cse373/17au/project3/diagrams/pagerank-simple-04.png).
   
@@ -26,7 +26,7 @@ TEST_CASE("Pagerank Simple", "") {
 }
 ```
 
-- Example 2:
+- Case 2:
 
   ![alt_text](https://courses.cs.washington.edu/courses/cse373/17au/project3/diagrams/pagerank-complex-04.png).
   
@@ -46,6 +46,15 @@ TEST_CASE("Pagerank Complex", "") {
     REQUIRE(loose_equal(res[3], 0.31132));
 }
 ```
+Case 1 Passing:
+
+<img width="798" alt="Screen Shot 2022-05-05 at 7 54 40 PM" src="https://media.github-dev.cs.illinois.edu/user/14404/files/ef71e77c-607e-4f12-b3ed-2493a1851ea3">
+
+Case 2 Passing:
+
+<img width="795" alt="Screen Shot 2022-05-05 at 7 56 03 PM" src="https://media.github-dev.cs.illinois.edu/user/14404/files/6bec9a5a-98fe-42b3-aa24-33dddff179ee">
+
+
 
 ## Algorithm 2
 For Djikstra's algorithm, we have created test cases to make sure it works correctly.
